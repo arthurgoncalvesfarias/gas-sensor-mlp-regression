@@ -1,142 +1,123 @@
-# Previsão da Concentração de CO Utilizando Rede Neural MLP Aplicada a Dados de Sensores Químicos
+# 📊 Predição de Concentração de CO com Sensores de Gás usando Machine Learning
 
-📌 Objetivo
+![Python](https://img.shields.io/badge/Python-3.11-blue)
+![Scikit-Learn](https://img.shields.io/badge/Machine%20Learning-Scikit--Learn-orange)
+![Status](https://img.shields.io/badge/Status-Concluído-brightgreen)
 
-Este projeto tem como objetivo estimar a concentração de Monóxido de Carbono (CO) em ppm a partir de sinais elétricos de sensores químicos (R1–R14), utilizando técnicas de regressão linear e redes neurais artificiais.
+---
 
-🧪 Contexto Físico
+## 📌 Visão Geral
 
-Sensores de gás do tipo MOS (Metal Oxide Semiconductor) não medem CO diretamente.
-Eles apresentam variações na resistência elétrica quando expostos a gases.
+Este projeto tem como objetivo estimar a concentração de Monóxido de Carbono (CO) em ppm a partir dos sinais elétricos de sensores químicos (R1–R14), combinados com variáveis ambientais como temperatura e umidade relativa.
 
-A resposta do sensor pode ser descrita como:
+Foram comparadas duas abordagens de modelagem:
 
-𝑅
-𝑠
-=
-𝑓
-(
-𝐶
-𝑂
-,
-𝑇
-,
-𝑈
-𝑅
-)
-R
-s
-	​
+- 🔹 Regressão Linear (modelo base)
+- 🔹 Rede Neural Multicamadas (MLP Regressor)
 
-=f(CO,T,UR)
+O objetivo foi avaliar se a relação entre os sensores e a concentração de CO é linear ou não linear.
 
-Onde:
+---
 
-𝑅
-𝑠
-R
-s
-	​
+## 🧪 Fundamentação Física
 
- → resposta elétrica do sensor
+Sensores de gás do tipo MOS (Metal Oxide Semiconductor) não medem CO diretamente.  
+Eles respondem à presença de gases através de variações na resistência elétrica.
 
-𝐶
-𝑂
-CO → concentração de monóxido de carbono
+A resposta do sensor pode ser modelada como:
 
-𝑇
-T → temperatura
+Rs = f(CO, Temperatura, Umidade Relativa)
 
-𝑈
-𝑅
-UR → umidade relativa
+Como sensores químicos são altamente sensíveis a condições ambientais, as variáveis de temperatura e umidade foram incluídas no modelo para permitir compensação ambiental.
 
-Como sensores são sensíveis a condições ambientais, foram incluídas variáveis ambientais no modelo para permitir compensação térmica e higrométrica.
+---
 
-📂 Dados Utilizados
+## 📂 Conjunto de Dados
 
-14 sensores químicos (R1–R14)
+### 🔹 Variáveis de Entrada (16 no total):
 
-Temperatura (T)
+- 14 Sensores de gás (R1–R14)
+- Temperatura (T)
+- Umidade Relativa (RH)
 
-Umidade relativa (RH)
+### 🔹 Variável Alvo:
+- Concentração de CO (ppm)
 
-Variável alvo: CO (ppm)
+Foram utilizadas **300.000 amostras** para treinamento e avaliação.
 
-Total de variáveis de entrada: 16
+---
 
-Foram utilizadas 300.000 amostras do dataset original.
+## ⚙️ Metodologia
 
-⚙️ Metodologia
-1️⃣ Pré-processamento
+### 1️⃣ Pré-processamento
 
-Amostragem de 300k instâncias
-
-Divisão treino/teste (80/20)
-
-Normalização com StandardScaler
+- Amostragem aleatória de 300 mil instâncias
+- Divisão Treino/Teste (80/20)
+- Normalização com StandardScaler
 
 A normalização foi aplicada para:
 
-Garantir estabilidade no treinamento da MLP
+- Garantir estabilidade no treinamento da rede neural
+- Permitir comparação direta dos coeficientes na regressão linear
 
-Permitir comparação direta dos coeficientes na regressão linear
+---
 
-🔹 MLP (Rede Neural)
+### 2️⃣ Modelos Avaliados
 
-Arquitetura:
+#### 🔹 Regressão Linear
 
-2 camadas ocultas (64, 32)
+Modelo base assumindo relação linear:
 
-Função de ativação ReLU
+CO = w₁R₁ + w₂R₂ + ... + w₁₆X₁₆ + b
 
-Otimizador Adam
+#### 🔹 MLP Regressor
 
-Early stopping
+Arquitetura utilizada:
 
-📊 Resultados
-Modelo	R²	RMSE
-Regressão Linear	0.525	4.41
-MLP	0.703	3.49
-📈 Análise dos Resultados
+- Camadas ocultas: (64, 32)
+- Função de ativação: ReLU
+- Otimizador: Adam
+- Early stopping ativado
 
-A regressão linear explicou aproximadamente 52% da variância do CO.
+---
 
-A MLP explicou aproximadamente 70% da variância.
+## 📊 Resultados Obtidos
 
-A redução no RMSE indica melhora significativa na precisão.
+| Modelo              | R² Score | RMSE |
+|--------------------|----------|------|
+| Regressão Linear  | 0.525    | 4.41 |
+| MLP Regressor     | 0.703    | 3.49 |
 
-Conclusão:
+---
 
-A relação entre os sensores e a concentração de CO apresenta comportamento não linear.
-Modelos não lineares capturam melhor as interações entre sensores e variáveis ambientais.
+## 📈 Análise dos Resultados
 
-🔬 Experimentos Realizados
+- A Regressão Linear explicou aproximadamente 52% da variância do CO.
+- A MLP explicou aproximadamente 70% da variância.
+- Houve redução significativa do erro médio (RMSE).
 
-Comparação entre modelo linear e não linear
+### 🔎 Conclusão
 
-Inclusão de variáveis ambientais
+Os resultados indicam que a relação entre os sensores de gás e a concentração de CO apresenta comportamento não linear.
 
-Análise de coeficientes da regressão linear
+A inclusão de temperatura e umidade relativa foi fundamental para melhorar o desempenho do modelo, permitindo compensação ambiental.
 
-Avaliação via R² e RMSE
+Redes neurais foram mais eficazes na captura de interações complexas entre sensores e variáveis ambientais.
 
-🧠 Conclusão
+---
 
-A inclusão de temperatura e umidade relativa foi fundamental para permitir compensação ambiental na resposta dos sensores.
+## 🚀 Como Executar o Projeto
 
-A rede neural apresentou desempenho superior, indicando presença de não linearidades no comportamento dos sensores de gás.
+### 1️⃣ Clonar o repositório
 
-Este trabalho demonstra aplicação prática de Machine Learning para calibração inteligente de sensores químicos.
+```bash
+git clone https://github.com/arthurgoncalvesfarias/gas-sensor-mlp-regression.git
+cd gas-sensor-mlp-regression
 
-🚀 Tecnologias Utilizadas
+👤 Autor
 
-Python
+Arthur Gonçalves Farias
 
-Pandas
+📜 Licença
 
-Scikit-learn
-
-Matplotlib
-
-NumPy
+Projeto desenvolvido para fins acadêmicos e estudo de Machine Learning aplicado.
