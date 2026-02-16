@@ -113,10 +113,22 @@ Redes neurais foram mais eficazes na captura de interações complexas entre sen
 ```bash
 git clone https://github.com/arthurgoncalvesfarias/gas-sensor-mlp-regression.git
 cd gas-sensor-mlp-regression
+```
+### 2️⃣ Instalar dependências
+
+```bash
+pip install -r requirements.txt
+```
+
+### 3️⃣ Executar o notebook e abrir o arquivo:
+
+```bash
+trabalho_regressao.ipynb
+```
 
 👤 Autor
 
-Arthur Gonçalves Farias
+Arthur Gonçalves Farias dos Reis
 
 📜 Licença
 
